@@ -1,0 +1,34 @@
+version: '2.2'
+services:
+    config-server:
+        container_name: config-server
+        build:
+            context: .
+            dockerfile: MicroserviceConfigServer/Dockerfile-configserver
+        image: config-server:latest    
+        expose:
+            - 9090
+        ports:
+            - 9090:9090
+        networks:
+            - emp-network
+        volumes:
+            - config-repo:/var/lib/config-repo
+            
+    eureka-server:
+        container_name: eureka-server
+        build:
+            context: .
+            dockerfile: EurekaNetflixRegistryServer/Dockerfile
+        image: eureka-server:latest
+        expose:
+            - 9091
+        ports:
+            - 9091:9091
+        networks:
+            - emp-network        
+            
+volumes:
+    config-repo:
+networks:
+    emp-network:   
