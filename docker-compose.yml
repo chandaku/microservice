@@ -26,9 +26,33 @@ services:
         ports:
             - 9091:9091
         networks:
-            - emp-network        
-            
+            - emp-network
+    EmployeeSearchService:
+        container_name: EmployeeSearch
+        build:
+            context: .
+            dockerfile: MicroServiceClient/Dockerfile
+        image: employeesearch:latest
+        environment:
+            SPRING_APPLICATION_JSON: '{"spring": {"cloud": {"config": {"uri": "http://config-server:9090"}}}},{"eureka": {"client": {"serviceUrl": {"defaultZone": "http://eureka-server:9091/eureka"}}}}'
+        expose:
+            - 8080
+        ports:
+            - 8080:8080
+        networks:
+            - emp-network
+        links:
+            - config-server:config-server
+            - eureka-server:eureka-server
+        depends_on:
+            - config-server
+            - eureka-server
+        logging:
+            driver: json-file          
 volumes:
     config-repo:
+        external: true 
 networks:
-    emp-network:   
+    emp-network:
+        driver: bridge
+           

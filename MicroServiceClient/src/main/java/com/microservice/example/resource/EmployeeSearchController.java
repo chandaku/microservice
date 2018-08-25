@@ -22,6 +22,7 @@ public class EmployeeSearchController {
     }
     @RequestMapping("/employee/findall")
     public Collection< Employee > findAll() {
+        System.out.print("searched" + Thread.currentThread().getName());
         return employeeSearchService.findAll();
     }
 }

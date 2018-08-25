@@ -12,12 +12,15 @@ import java.util.Collection;
 @RefreshScope
 @RestController
 public class FeignEmployeeInfoController {
+
     @Autowired
     EmployeeServiceProxy proxyService;
+
     @RequestMapping("/dashboard/feign/{myself}")
     public EmployeeInfo findme(@PathVariable Long myself) {
         return proxyService.findById(myself);
     }
+
     @RequestMapping("/dashboard/feign/peers")
     public Collection< EmployeeInfo > findPeers() {
         return proxyService.findAll();
